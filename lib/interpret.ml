@@ -65,3 +65,13 @@ let%expect_test "interpret2" =
   let res = interpret env prog in
   print_endline (res |> [%sexp_of: int Environment.t] |> Sexp.to_string);
   [%expect {| ((a 3)(b 2)(x 0)(y 5)) |}]
+let%expect_test "interpret3" =
+  let prog = read_prog (Sexp.of_string Testprog.whileadd) in
+  let env = Environment.of_alist_exn [("x", 3); ("y", 2); ("a", 3); ("b", 1)] in
+  try(
+    let res = interpret env prog in
+    print_endline (res |> [%sexp_of: int Environment.t] |> Sexp.to_string);
+  )
+  with
+  | Invariant_violation _ -> print_endline "hoge";
+  [%expect {| hoge |}]
