@@ -1,6 +1,0 @@
-(executable
- (name main)
- (libraries core sexplib)
- (inline_tests)
- (preprocess (pps ppx_jane))
-)
