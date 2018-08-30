@@ -1,0 +1,6 @@
+(library
+ (name mylib)
+ (libraries core sexplib)
+ (inline_tests)
+ (preprocess (pps ppx_jane))
+)
