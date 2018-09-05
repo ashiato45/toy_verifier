@@ -15,13 +15,16 @@ type pbool = BEqual of pnum * pnum
            | BLe of pnum * pnum
            | BAnd of pbool * pbool
            | BOr of pbool * pbool
-           | BNot of pbool [@@deriving compare, sexp]
+           | BNot of pbool 
+           | BImplies of pbool * pbool [@@deriving compare, sexp]
+
 
 type prog = PSkip
           | PSet of string * pnum
           | PIf of pbool * prog * prog
           | PWhile of pbool * pbool * prog
           | PBlock of prog list [@@deriving compare, sexp]
+
 
 exception Parse_error
 
