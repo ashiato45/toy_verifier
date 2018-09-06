@@ -43,5 +43,31 @@ let rec z3constr_of_pbool (ctx:context) (vd: Expr.expr VariableDict.t ref) (cond
   | BNot a -> (Boolean.mk_not ctx (z3constr_of_pbool' a))
   | BImplies (a, b) ->  (Boolean.mk_implies ctx (z3constr_of_pbool' a) (z3constr_of_pbool' b))
 
-let solve ((cond, loopinvs):(pbool*(pbool list))) : int VariableDict.t =
-  assert false
+type verification_result = VRSafe
+                         | VRUnsafe of int VariableDict.t
+                         | VRUnknown
+
+let solve (conds:pbool list) : verification_result =
+  let cfg = [("model", "true"); ("proof", "false")] in
+  let ctx = (mk_context cfg) in
+  let vd = ref (VariableDict.empty) in
+  let constr = Boolean.mk_not ctx ( Boolean.mk_and ctx (List.map ~f:(z3constr_of_pbool ctx vd) conds)) in
+  let solver = Solver.mk_solver ctx None in
+  Solver.add solver [constr];
+  let res = Solver.check solver [] in
+  match res with
+  | SATISFIABLE -> (
+    let m = Solver.get_model solver in 
+    match m with
+    | None -> VRUnsafe (VariableDict.empty)
+    | Some m -> (
+      let assgn = VariableDict.fold ~init:(VariableDict.empty) ~f:(fun ~key:key ~data:data dic ->
+                      match Model.get_const_interp_e m e with
+                      | None -> dic
+                      | Some e -> (VariableDict.set ~key:key ~data:(Arithmetic.Integer.get_int e) dic)
+                    ) !vd in
+      VRUnsafe assgn
+    )
+  )
+  | UNSATISFIABLE -> VRSafe
+  | UNKNOWN -> VRUnknown
