@@ -9,6 +9,7 @@ B /home/ashiato45/.opam/4.06.1/lib/core_kernel
 B /home/ashiato45/.opam/4.06.1/lib/core_kernel/base_for_tests
 B /home/ashiato45/.opam/4.06.1/lib/fieldslib
 B /home/ashiato45/.opam/4.06.1/lib/jane-street-headers
+B /home/ashiato45/.opam/4.06.1/lib/num
 B /home/ashiato45/.opam/4.06.1/lib/ocaml
 B /home/ashiato45/.opam/4.06.1/lib/ocaml/threads
 B /home/ashiato45/.opam/4.06.1/lib/parsexp
@@ -30,6 +31,7 @@ B /home/ashiato45/.opam/4.06.1/lib/splittable_random
 B /home/ashiato45/.opam/4.06.1/lib/stdio
 B /home/ashiato45/.opam/4.06.1/lib/typerep
 B /home/ashiato45/.opam/4.06.1/lib/variantslib
+B /home/ashiato45/.opam/4.06.1/lib/z3
 B ../_build/default/app/.main.eobjs
 B ../_build/default/lib/.mylib.objs
 S /home/ashiato45/.opam/4.06.1/lib/base
@@ -43,6 +45,7 @@ S /home/ashiato45/.opam/4.06.1/lib/core_kernel
 S /home/ashiato45/.opam/4.06.1/lib/core_kernel/base_for_tests
 S /home/ashiato45/.opam/4.06.1/lib/fieldslib
 S /home/ashiato45/.opam/4.06.1/lib/jane-street-headers
+S /home/ashiato45/.opam/4.06.1/lib/num
 S /home/ashiato45/.opam/4.06.1/lib/ocaml
 S /home/ashiato45/.opam/4.06.1/lib/ocaml/threads
 S /home/ashiato45/.opam/4.06.1/lib/parsexp
@@ -64,6 +67,7 @@ S /home/ashiato45/.opam/4.06.1/lib/splittable_random
 S /home/ashiato45/.opam/4.06.1/lib/stdio
 S /home/ashiato45/.opam/4.06.1/lib/typerep
 S /home/ashiato45/.opam/4.06.1/lib/variantslib
+S /home/ashiato45/.opam/4.06.1/lib/z3
 S .
 S ../lib
 FLG -ppx '/home/ashiato45/repo/toy_verifier/_build/default/.ppx/ppx_jane/ppx.exe --as-ppx'
