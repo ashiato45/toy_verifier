@@ -62,7 +62,7 @@ let solve (conds:pbool list) : verification_result =
     | None -> VRUnsafe (VariableDict.empty)
     | Some m -> (
       let assgn = VariableDict.fold ~init:(VariableDict.empty) ~f:(fun ~key:key ~data:data dic ->
-                      match Model.get_const_interp_e m e with
+                      match Model.get_const_interp_e m data with
                       | None -> dic
                       | Some e -> (VariableDict.set ~key:key ~data:(Arithmetic.Integer.get_int e) dic)
                     ) !vd in
@@ -71,3 +71,21 @@ let solve (conds:pbool list) : verification_result =
   )
   | UNSATISFIABLE -> VRSafe
   | UNKNOWN -> VRUnknown
+
+let solve_easy (conds:pbool list) : string =
+  let cfg = [("model", "true"); ("proof", "false")] in
+  let ctx = (mk_context cfg) in
+  let vd = ref (VariableDict.empty) in
+  let constr = Boolean.mk_not ctx ( Boolean.mk_and ctx (List.map ~f:(z3constr_of_pbool ctx vd) conds)) in
+  let solver = Solver.mk_solver ctx None in
+  Solver.add solver [constr];
+  let res = Solver.check solver [] in
+  match res with
+  | SATISFIABLE -> (
+    let m = Solver.get_model solver in
+    match m with
+    | None -> "unsafe, but no information"
+    | Some m -> Model.to_string m
+  )
+  | UNSATISFIABLE -> "safe"
+  | UNKNOWN -> "unknown"

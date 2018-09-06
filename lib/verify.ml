@@ -24,7 +24,9 @@ let rec subst_pbool (var:string) (replacing:pnum) (cond:pbool) : pbool =
   | BGe (l, r) -> BGe (subst_pnum' l, subst_pnum' r)
   | BLe (l, r) -> BLe (subst_pnum' l, subst_pnum' r)
   | BAnd (l, r) -> BAnd (subst_pbool' l, subst_pbool' r)
-  | otherwise -> assert false
+  | BOr (l, r) -> BOr (subst_pbool' l, subst_pbool' r)
+  | BNot a -> BNot (subst_pbool' a)
+  | BImplies (l, r) -> BImplies (subst_pbool' l, subst_pbool' r)
 
 let calc_weakest_precond (prog:prog) (post:pbool) : pbool*(pbool list) =
   let rec help (prog:prog) (post:pbool) (acc:pbool list) : pbool*(pbool list) =
