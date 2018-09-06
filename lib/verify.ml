@@ -45,3 +45,6 @@ let calc_weakest_precond (prog:prog) (post:pbool) : pbool*(pbool list) =
   help prog post []
 
 
+let calc_cond (precond:pbool) (p:prog) (postcond:pbool) : pbool list =
+  let (weakest, invcheck) = calc_weakest_precond p postcond in
+  (BImplies (precond, weakest))::invcheck
